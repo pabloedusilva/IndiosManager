@@ -36,6 +36,11 @@ const validarProduto = [
     .notEmpty().withMessage('Preço é obrigatório.')
     .isFloat({ min: 0.01 }).withMessage('Preço deve ser maior que zero.'),
 
+  body('ncm')
+    .trim()
+    .notEmpty().withMessage('NCM é obrigatório.')
+    .matches(/^\d{8}$/).withMessage('NCM deve ter exatamente 8 dígitos numéricos.'),
+
   body('disponivel')
     .optional()
     .isBoolean().withMessage('Disponível deve ser true ou false.'),
@@ -74,6 +79,27 @@ const validarPedido = [
   aplicarValidacao,
 ]
 
+// ── Adicionar Itens ao Pedido ─────────────────────────────────
+const validarAdicionarItens = [
+  body('itens')
+    .isArray({ min: 1 }).withMessage('Deve conter pelo menos um item.'),
+
+  body('itens.*.produtoId')
+    .notEmpty().withMessage('ID do produto é obrigatório.'),
+
+  body('itens.*.nomeProduto')
+    .trim()
+    .notEmpty().withMessage('Nome do produto é obrigatório.'),
+
+  body('itens.*.quantidade')
+    .isInt({ min: 1 }).withMessage('Quantidade deve ser maior que zero.'),
+
+  body('itens.*.precoUnitario')
+    .isFloat({ min: 0.01 }).withMessage('Preço unitário deve ser maior que zero.'),
+
+  aplicarValidacao,
+]
+
 // ── Pagamento (rota /finalizar) ───────────────────────────────
 const FORMAS_VALIDAS = ['pix', 'credito', 'debito', 'dinheiro']
 
@@ -93,4 +119,4 @@ const validarPagamento = [
   aplicarValidacao,
 ]
 
-module.exports = { validarProduto, validarPedido, validarPagamento }
+module.exports = { validarProduto, validarPedido, validarAdicionarItens, validarPagamento }

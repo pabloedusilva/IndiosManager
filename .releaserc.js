@@ -16,7 +16,7 @@ module.exports = {
   branches: ['main'],
 
   // URL do repositório (inferido automaticamente, mas explicitado para CI)
-  repositoryUrl: 'https://github.com/pabloedusilva/Indios.git',
+  repositoryUrl: 'https://github.com/pabloedusilva/IndiosManager.git',
 
   // Plugins executados em sequência
   plugins: [
@@ -50,6 +50,9 @@ module.exports = {
       },
     ],
 
+    // 1.5 Plugin customizado: Detecta migrações de banco de dados
+    './scripts/semantic-release-migrations-plugin.js',
+
     // 2. Gera release notes agrupadas por tipo
     [
       '@semantic-release/release-notes-generator',
@@ -64,10 +67,10 @@ module.exports = {
             { type: 'refactor', section: 'Refatorações', hidden: false },
             { type: 'docs', section: 'Documentação', hidden: false },
             { type: 'test', section: 'Testes', hidden: false },
-            { type: 'build', section: 'Build', hidden: true },
-            { type: 'ci', section: 'CI/CD', hidden: true },
-            { type: 'chore', section: 'Manutenção', hidden: true },
-            { type: 'style', section: 'Estilo', hidden: true },
+            { type: 'build', section: 'Build', hidden: false },
+            { type: 'ci', section: 'CI/CD', hidden: false },
+            { type: 'chore', section: 'Manutenção', hidden: false },
+            { type: 'style', section: 'Estilo', hidden: false },
           ],
         },
         writerOpts: {

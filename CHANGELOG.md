@@ -5,44 +5,331 @@ Todas as mudanças notáveis deste projeto são documentadas aqui.
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+Histórico completo de releases do projeto.
+
+## v2.9.0 (30/08/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.9.0)
+
+[2.9.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.8.0...v2.9.0) (2026-08-30)
+
+## [2.9.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.8.0...v2.9.0) (2026-08-30)
+
+
+### Novas Funcionalidades
+
+* **contabilidade:** exibe nome do cliente nas notas fiscais ([ee85a3c](https://github.com/pabloedusilva/IndiosManager/commit/ee85a3cca18327947c0be9c2ae8ebb70d391f479))
+
+
+### Refatorações
+
+* **branding:** renomeia aplicativo para Indios Manager ([b8102ed](https://github.com/pabloedusilva/IndiosManager/commit/b8102ede10fe2311bec333df7a035340dbff5c4f))
+
+
+### Documentação
+
+* sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([cfdb20b](https://github.com/pabloedusilva/IndiosManager/commit/cfdb20bcb2ebd90fb6e88f4828ed9c9bbe4d5c5d))
+
+
+### Manutenção
+
+* atualiza package-locks para versão 2.8.0 e novo nome indios-manager ([ac2e139](https://github.com/pabloedusilva/IndiosManager/commit/ac2e139c2aec6f5296696899beda51e92d307c4d))
+* restaura configurações do GitHub ([4592da2](https://github.com/pabloedusilva/IndiosManager/commit/4592da2ea9f6533a4aa49ba0db52d2cc3754e97b))
+* rollback para versão estável ([b232fbf](https://github.com/pabloedusilva/IndiosManager/commit/b232fbf949272a1667432bc1a42db20941e3dc48))
+* sincroniza package-locks após renomeação do projeto ([1e0457f](https://github.com/pabloedusilva/IndiosManager/commit/1e0457f226b5b64c0d7af175298eb31f47c9a75c))
+* sincronizar versões dos package.json para v2.6.0 [skip ci] ([1449f75](https://github.com/pabloedusilva/IndiosManager/commit/1449f75db3570e24d15636a105f6f84901dea78b))
+* sincronizar versões dos package.json para v2.7.0 [skip ci] ([45126c7](https://github.com/pabloedusilva/IndiosManager/commit/45126c7b689fc45c8f9b3d5b78a0dfed93941a55))
+* sincronizar versões dos package.json para v2.8.0 [skip ci] ([5d81b87](https://github.com/pabloedusilva/IndiosManager/commit/5d81b87fb825b2937b543e01d68fb888c7ce1d7c))
+
+## v2.8.0 (29/08/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.8.0)
+
+[2.8.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.7.0...v2.8.0) (2026-08-29)
+
+## [2.8.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.7.0...v2.8.0) (2026-08-29)
+
+
+### Novas Funcionalidades
+
+* **ui:** aprimora loader, reprodução de vídeo e identificação de versão ([061bcf0](https://github.com/pabloedusilva/IndiosManager/commit/061bcf04fc95af41020b2a21abb9a8f15d95bc7e))
+
+## v2.7.0 (29/08/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.7.0)
+
+[2.7.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.6.0...v2.7.0) (2026-08-29)
+
+## [2.7.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.6.0...v2.7.0) (2026-08-29)
+
+
+### Novas Funcionalidades
+
+* **ui:** adiciona novo vídeo ao loader e aprimora animações ([d71ba6b](https://github.com/pabloedusilva/IndiosManager/commit/d71ba6bbb84764759c7e8198c0155e131e98257f))
+
+
+### Documentação
+
+* sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([229a966](https://github.com/pabloedusilva/IndiosManager/commit/229a96679933e66f7aabce70d5a991528e931ded))
+
+## v2.6.0 (28/08/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.6.0)
+
+[2.6.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.5.0...v2.6.0) (2026-08-28)
+
+## [2.6.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.5.0...v2.6.0) (2026-08-28)
+
+
+### Novas Funcionalidades
+
+* **ui:** adapta loader ao tema do usuário ([c949b8a](https://github.com/pabloedusilva/IndiosManager/commit/c949b8a0f068f43df8478c42d237d912d323b1e3))
+
+
+### Refatorações
+
+* **release:** melhora limpeza e formatação das notas de atualização ([dfa75e6](https://github.com/pabloedusilva/IndiosManager/commit/dfa75e689647d5e77ed6f26ce140c0b502dae0c6))
+
+
+### Manutenção
+
+* sincronizar versões dos package.json para v2.5.0 [skip ci] ([085d7a8](https://github.com/pabloedusilva/IndiosManager/commit/085d7a8ef3eab5dfb2e47c904002d3990686b7f2))
+
+## v2.5.0 (28/08/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.5.0)
+
+[2.5.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.4.0...v2.5.0) (2026-08-28)
+
+## [2.5.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.4.0...v2.5.0) (2026-08-28)
+
+
+### Novas Funcionalidades
+
+* **fiscal:** implementa download de backup de NFC-e via Focus NFe ([885c6c5](https://github.com/pabloedusilva/IndiosManager/commit/885c6c55f9476666fc4c4824433e95893bb989b1))
+* **contabilidade:** implementa sistema completo de atualização em tempo real ([4feece2](https://github.com/pabloedusilva/IndiosManager/commit/4feece2924c4157ad72e1400249a753507213445))
+* **produtos:** implementa validação e formatação automática do NCM ([cca6c1c](https://github.com/pabloedusilva/IndiosManager/commit/cca6c1caddbea0611deb2ae6c51b644006a187fa))
+
+
+### Correções de Bugs
+
+* **nfce:** ajusta valores de pagamento e troco conforme forma de pagamento ([3f528a5](https://github.com/pabloedusilva/IndiosManager/commit/3f528a579b4e3275a7ed26426b70784ed43c0cc5))
+* corrigir URL do repositório GitHub para IndiosManager ([8714687](https://github.com/pabloedusilva/IndiosManager/commit/871468720b03bd1ac59c8e6806b789b57486d45a))
+
+
+### Documentação
+
+* sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([aac2b90](https://github.com/pabloedusilva/IndiosManager/commit/aac2b90320f952ad47e33df39205cd2f603cac31))
+* sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([657e424](https://github.com/pabloedusilva/IndiosManager/commit/657e42430a78df6fb1a074df9e7d0514e8f13bff))
+* sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([e530641](https://github.com/pabloedusilva/IndiosManager/commit/e530641c327e19baccd38d529702581c1f07b4f4))
+
+
+### Manutenção
+
+* **branding:** atualiza logos e favicons ([d9c00ff](https://github.com/pabloedusilva/IndiosManager/commit/d9c00ff3f07c1064ec0daef8e448cfc4ed124e91))
+* sincronizar versões dos package.json para v2.3.1 [skip ci] ([0c79d44](https://github.com/pabloedusilva/IndiosManager/commit/0c79d4495a7a591fac7b36be0fe357f67232cabb))
+* sincronizar versões dos package.json para v2.4.0 [skip ci] ([5c5ec9d](https://github.com/pabloedusilva/IndiosManager/commit/5c5ec9da470d2304293587b862f76b303de563c1))
+
+## v2.4.0 (17/08/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.4.0)
+
+[2.4.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.3.1...v2.4.0) (2026-08-17)
+
+## [2.4.0](https://github.com/pabloedusilva/Indios/compare/v2.3.1...v2.4.0) (2026-08-17)
+
+
+### Novas Funcionalidades
+
+* **pedidos:** implementa edição de pedidos com adição de itens ([a4f34f9](https://github.com/pabloedusilva/Indios/commit/a4f34f97f863fbe55b308f9e2e1103569f27e3f2))
+
+## v2.3.1 (16/08/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.3.1)
+
+[2.3.1](https://github.com/pabloedusilva/IndiosManager/compare/v2.3.0...v2.3.1) (2026-08-16)
+
+## [2.3.1](https://github.com/pabloedusilva/Indios/compare/v2.3.0...v2.3.1) (2026-08-16)
+
+
+### Correções de Bugs
+
+* **release:** remove metadados técnicos das notas de atualização ([42ab3d9](https://github.com/pabloedusilva/Indios/commit/42ab3d9e9cbad3e3b104226c7e4b0cd71b651e48))
+
+
+### Manutenção
+
+* sincronizar versões dos package.json para v2.3.0 [skip ci] ([9179be9](https://github.com/pabloedusilva/Indios/commit/9179be933fbc9515ec41454b76435c977e6a74e7))
+
+## v2.3.0 (16/08/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.3.0)
+
+[2.3.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.2.0...v2.3.0) (2026-08-16)
+
+## [2.3.0](https://github.com/pabloedusilva/Indios/compare/v2.2.0...v2.3.0) (2026-08-16)
+
+
+### Novas Funcionalidades
+
+* **notas-fiscais:** adicionar chave de acesso aos nomes dos XMLs ([5cba3f6](https://github.com/pabloedusilva/Indios/commit/5cba3f68357538fa5946eedc53d245621d8a4c86))
+* **pagamento:** adicionar cobrança mensal via InfinitePay e otimizar pool de conexões ([f1ffd1c](https://github.com/pabloedusilva/Indios/commit/f1ffd1cfaad786114983e58016c2c2046124219f))
+* **notas-fiscais:** adicionar emissão automática via API do Focus NFe ([8fc2e84](https://github.com/pabloedusilva/Indios/commit/8fc2e84bff3d9097ed6a01fec8c3d7c42e14e3d8))
+* **download:** adicionar progresso global para downloads ([fb1125b](https://github.com/pabloedusilva/Indios/commit/fb1125bd5503def5f3640f6a8871faf5373db055))
+
+
+### Correções de Bugs
+
+* **release:** corrigir automação do processo de release ([2b8a2bd](https://github.com/pabloedusilva/Indios/commit/2b8a2bd6d7a79422d14a2d8c1ab219e19c2fb8dc))
+* **fiscal:** corrigir emissão e cancelamento de notas e ajustes na interface ([7f6f084](https://github.com/pabloedusilva/Indios/commit/7f6f08451684cbee1e06dc42e5e82cc372e1bca8))
+* **ci:** restaura script test:run para evitar falhas no pipeline de CI/CD ([8ebff41](https://github.com/pabloedusilva/Indios/commit/8ebff41b18fbecece6072fa55426440873c99e08))
+
+
+### Refatorações
+
+* **ui:** melhorar interface e ajustar conexão com banco de dados ([2b07d46](https://github.com/pabloedusilva/Indios/commit/2b07d46ba100d4f6de1c2926eb5c8b02ec47fc0a))
+* **config:** remove dependência do .env.fiscal e centraliza configurações no .env ([dacce78](https://github.com/pabloedusilva/Indios/commit/dacce7878cd7b64fd2a84ee89501d0c1aa69beda))
+* **pedidos:** remover botão de marcar todos como concluído, finalização em massa e exigir pagamento ([98f687c](https://github.com/pabloedusilva/Indios/commit/98f687c3b3de019be1d44b21a89cb6cc1e61d3ab))
+* **pagamento:** remover integração de cobrança mensal do Mercado Pago ([cea459c](https://github.com/pabloedusilva/Indios/commit/cea459ce5871faf6175fefd490b4a844a6ae9b1d))
+
+
+### Documentação
+
+* **readme:** atualizar descrição com emissão de notas fiscais pela SEFAZ ([77bfd3b](https://github.com/pabloedusilva/Indios/commit/77bfd3b8ec6bdce504da758a21330a569820aa79))
+* sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([d08eade](https://github.com/pabloedusilva/Indios/commit/d08eade7e6f9532e5dff92c945adc7751c72c7bf))
+
+
+### Manutenção
+
+* sincronizar versões dos package.json para v2.1.1 [skip ci] ([9eb0de4](https://github.com/pabloedusilva/Indios/commit/9eb0de454b78bb272a93e4a4e0d5318d07ca19e4))
+* sincronizar versões dos package.json para v2.2.0 [skip ci] ([0b82ba8](https://github.com/pabloedusilva/Indios/commit/0b82ba86b562dbb65fcca274c5462479cfb5a1ba))
+
+## v2.2.0 (24/05/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.2.0)
+
+[2.2.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.1.1...v2.2.0) (2026-05-24)
+
+## [2.2.0](https://github.com/pabloedusilva/Indios/compare/v2.1.1...v2.2.0) (2026-05-24)
+
+
+### Novas Funcionalidades
+
+* implementar pedidos sem nome com geração automática de cliente temporário e remover cross-env dos scripts de produção ([c0b682a](https://github.com/pabloedusilva/Indios/commit/c0b682a66fde3d555ab9f81ebe7034cb7e02d9f4))
+
+
+### Correções de Bugs
+
+* remover dependência desnecessária do cross-env no Render ([65dc121](https://github.com/pabloedusilva/Indios/commit/65dc121a3cc43ec778cf7e85a007b9184953d312))
+
+## v2.1.1 (24/05/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.1.1)
+
+[2.1.1](https://github.com/pabloedusilva/IndiosManager/compare/v2.1.0...v2.1.1) (2026-05-24)
+
+## [2.1.1](https://github.com/pabloedusilva/Indios/compare/v2.1.0...v2.1.1) (2026-05-24)
+
+
+### Correções de Bugs
+
+* corrigir execução do cross-env em produção ([375498d](https://github.com/pabloedusilva/Indios/commit/375498dcc82a25410cc1ca3cda2a0147223adbbe))
+* corrigir execução do cross-env em produção ([c3c9ba1](https://github.com/pabloedusilva/Indios/commit/c3c9ba1c57a2611c6ef9d97ad8f82df4f2bef448))
+
+## v2.1.0 (24/05/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.1.0)
+
+[2.1.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.0.0...v2.1.0) (2026-05-24)
+
+## [2.1.0](https://github.com/pabloedusilva/Indios/compare/v2.0.0...v2.1.0) (2026-05-24)
+
+
+### Novas Funcionalidades
+
+* migração para PostgreSQL, correções e suporte a pedidos anônimos ([33f2e4a](https://github.com/pabloedusilva/Indios/commit/33f2e4adfdc1af238c700042337a9ffcd209bb29))
+
+## v2.0.0 (19/05/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.0.0)
+
+[2.0.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.12.0...v2.0.0) (2026-05-19)
+
 ## [2.0.0](https://github.com/pabloedusilva/Indios/compare/v1.12.0...v2.0.0) (2026-05-19)
+
 
 ### ⚠ BREAKING CHANGES
 
 * lançamento oficial da versão 2.0.0
 
+
 ### Novas Funcionalidades
 
 * lançamento oficial da versão 2.0.0 ([68b4aa9](https://github.com/pabloedusilva/Indios/commit/68b4aa91732d8fcd689eda690e1e77efce712122))
 
+## v1.12.0 (17/05/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.12.0)
+
+[1.12.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.11.2...v1.12.0) (2026-05-17)
+
 ## [1.12.0](https://github.com/pabloedusilva/Indios/compare/v1.11.2...v1.12.0) (2026-05-17)
+
 
 ### Novas Funcionalidades
 
 * **ui:** melhorias no badge de versão ([880161f](https://github.com/pabloedusilva/Indios/commit/880161fe956a41220d0f399a8bf60ae15e170103))
 
+## v1.11.2 (17/05/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.11.2)
+
+[1.11.2](https://github.com/pabloedusilva/IndiosManager/compare/v1.11.1...v1.11.2) (2026-05-17)
+
 ## [1.11.2](https://github.com/pabloedusilva/Indios/compare/v1.11.1...v1.11.2) (2026-05-17)
+
 
 ### Correções de Bugs
 
 * **ci:** adicionar token de autenticação em todos os checkouts ([6720cf0](https://github.com/pabloedusilva/Indios/commit/6720cf047fc3c05bc13ced59c9019b40d553583d))
 
+## v1.11.1 (17/05/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.11.1)
+
+[1.11.1](https://github.com/pabloedusilva/IndiosManager/compare/v1.11.0...v1.11.1) (2026-05-17)
+
 ## [1.11.1](https://github.com/pabloedusilva/Indios/compare/v1.11.0...v1.11.1) (2026-05-17)
+
 
 ### Correções de Bugs
 
 * **ci:** adicionar token de autenticação em todos os checkouts ([e5ea527](https://github.com/pabloedusilva/Indios/commit/e5ea5276c24b81577bfae9986a3a9c8e3a60b03c))
 
+
 ### Documentação
 
 * sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([3c310ff](https://github.com/pabloedusilva/Indios/commit/3c310ff1fc7ffab207087ab0ee33f448acb3bc31))
 
+## v1.11.0 (17/05/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.11.0)
+
+[1.11.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.10.0...v1.11.0) (2026-05-17)
+
 ## [1.11.0](https://github.com/pabloedusilva/Indios/compare/v1.10.0...v1.11.0) (2026-05-17)
+
 
 ### Novas Funcionalidades
 
 * corrigir autenticação do workflow ([b717b1a](https://github.com/pabloedusilva/Indios/commit/b717b1a3bc09988742b0753dd5d888079f1f77d1))
 * testar release automática ([b482a28](https://github.com/pabloedusilva/Indios/commit/b482a283b007434b9796f9ee57a6ca8f21d1e7fe))
+
+## v1.10.0 (17/05/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.10.0)
+
+[1.10.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.9.0...v1.10.0) (2026-05-17)
 
 ## [1.10.0](https://github.com/pabloedusilva/Indios/compare/v1.9.0...v1.10.0) (2026-05-17)
 
@@ -53,9 +340,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.9.0 (17/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.9.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.9.0)
 
-[1.9.0](https://github.com/pabloedusilva/Indios/compare/v1.8.1...v1.9.0) (2026-05-17)
+[1.9.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.8.1...v1.9.0) (2026-05-17)
 
 ## [1.9.0](https://github.com/pabloedusilva/Indios/compare/v1.8.1...v1.9.0) (2026-05-17)
 
@@ -66,9 +353,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.8.1 (17/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.8.1)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.8.1)
 
-[1.8.1](https://github.com/pabloedusilva/Indios/compare/v1.8.0...v1.8.1) (2026-05-17)
+[1.8.1](https://github.com/pabloedusilva/IndiosManager/compare/v1.8.0...v1.8.1) (2026-05-17)
 
 ## [1.8.1](https://github.com/pabloedusilva/Indios/compare/v1.8.0...v1.8.1) (2026-05-17)
 
@@ -79,9 +366,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.8.0 (16/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.8.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.8.0)
 
-[1.8.0](https://github.com/pabloedusilva/Indios/compare/v1.7.0...v1.8.0) (2026-05-16)
+[1.8.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.7.0...v1.8.0) (2026-05-16)
 
 ## [1.8.0](https://github.com/pabloedusilva/Indios/compare/v1.7.0...v1.8.0) (2026-05-16)
 
@@ -92,9 +379,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.7.0 (16/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.7.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.7.0)
 
-[1.7.0](https://github.com/pabloedusilva/Indios/compare/v1.6.0...v1.7.0) (2026-05-16)
+[1.7.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.6.0...v1.7.0) (2026-05-16)
 
 ## [1.7.0](https://github.com/pabloedusilva/Indios/compare/v1.6.0...v1.7.0) (2026-05-16)
 
@@ -105,9 +392,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.6.0 (16/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.6.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.6.0)
 
-[1.6.0](https://github.com/pabloedusilva/Indios/compare/v1.5.0...v1.6.0) (2026-05-16)
+[1.6.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.5.0...v1.6.0) (2026-05-16)
 
 ## [1.6.0](https://github.com/pabloedusilva/Indios/compare/v1.5.0...v1.6.0) (2026-05-16)
 
@@ -123,9 +410,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.5.0 (16/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.5.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.5.0)
 
-[1.5.0](https://github.com/pabloedusilva/Indios/compare/v1.4.0...v1.5.0) (2026-05-16)
+[1.5.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.4.0...v1.5.0) (2026-05-16)
 
 ## [1.5.0](https://github.com/pabloedusilva/Indios/compare/v1.4.0...v1.5.0) (2026-05-16)
 
@@ -141,9 +428,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.4.0 (16/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.4.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.4.0)
 
-[1.4.0](https://github.com/pabloedusilva/Indios/compare/v1.3.0...v1.4.0) (2026-05-16)
+[1.4.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.3.0...v1.4.0) (2026-05-16)
 
 ## [1.4.0](https://github.com/pabloedusilva/Indios/compare/v1.3.0...v1.4.0) (2026-05-16)
 
@@ -154,9 +441,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.3.0 (16/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.3.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.3.0)
 
-[1.3.0](https://github.com/pabloedusilva/Indios/compare/v1.2.5...v1.3.0) (2026-05-16)
+[1.3.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.2.5...v1.3.0) (2026-05-16)
 
 ## [1.3.0](https://github.com/pabloedusilva/Indios/compare/v1.2.5...v1.3.0) (2026-05-16)
 
@@ -167,9 +454,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.2.5 (13/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.2.5)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.2.5)
 
-[1.2.5](https://github.com/pabloedusilva/Indios/compare/v1.2.4...v1.2.5) (2026-05-13)
+[1.2.5](https://github.com/pabloedusilva/IndiosManager/compare/v1.2.4...v1.2.5) (2026-05-13)
 
 ## [1.2.5](https://github.com/pabloedusilva/Indios/compare/v1.2.4...v1.2.5) (2026-05-13)
 
@@ -180,9 +467,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.2.4 (13/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.2.4)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.2.4)
 
-[1.2.4](https://github.com/pabloedusilva/Indios/compare/v1.2.3...v1.2.4) (2026-05-13)
+[1.2.4](https://github.com/pabloedusilva/IndiosManager/compare/v1.2.3...v1.2.4) (2026-05-13)
 
 ## [1.2.4](https://github.com/pabloedusilva/Indios/compare/v1.2.3...v1.2.4) (2026-05-13)
 
@@ -193,9 +480,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.2.3 (13/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.2.3)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.2.3)
 
-[1.2.3](https://github.com/pabloedusilva/Indios/compare/v1.2.2...v1.2.3) (2026-05-13)
+[1.2.3](https://github.com/pabloedusilva/IndiosManager/compare/v1.2.2...v1.2.3) (2026-05-13)
 
 ## [1.2.3](https://github.com/pabloedusilva/Indios/compare/v1.2.2...v1.2.3) (2026-05-13)
 
@@ -206,9 +493,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.2.2 (13/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.2.2)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.2.2)
 
-[1.2.2](https://github.com/pabloedusilva/Indios/compare/v1.2.1...v1.2.2) (2026-05-13)
+[1.2.2](https://github.com/pabloedusilva/IndiosManager/compare/v1.2.1...v1.2.2) (2026-05-13)
 
 ## [1.2.2](https://github.com/pabloedusilva/Indios/compare/v1.2.1...v1.2.2) (2026-05-13)
 
@@ -219,9 +506,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.2.1 (13/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.2.1)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.2.1)
 
-[1.2.1](https://github.com/pabloedusilva/Indios/compare/v1.2.0...v1.2.1) (2026-05-13)
+[1.2.1](https://github.com/pabloedusilva/IndiosManager/compare/v1.2.0...v1.2.1) (2026-05-13)
 
 ## [1.2.1](https://github.com/pabloedusilva/Indios/compare/v1.2.0...v1.2.1) (2026-05-13)
 
@@ -232,9 +519,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.2.0 (13/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.2.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.2.0)
 
-[1.2.0](https://github.com/pabloedusilva/Indios/compare/v1.1.0...v1.2.0) (2026-05-13)
+[1.2.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.1.0...v1.2.0) (2026-05-13)
 
 ## [1.2.0](https://github.com/pabloedusilva/Indios/compare/v1.1.0...v1.2.0) (2026-05-13)
 
@@ -245,9 +532,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.1.0 (12/05/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.1.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.1.0)
 
-[1.1.0](https://github.com/pabloedusilva/Indios/compare/v1.0.0...v1.1.0) (2026-05-12)
+[1.1.0](https://github.com/pabloedusilva/IndiosManager/compare/v1.0.0...v1.1.0) (2026-05-12)
 
 ## [1.1.0](https://github.com/pabloedusilva/Indios/compare/v1.0.0...v1.1.0) (2026-05-12)
 
@@ -319,9 +606,9 @@ e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## v1.0.0 (19/04/2026)
 
-[Ver release](https://github.com/pabloedusilva/Indios/releases/tag/v1.0.0)
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.0.0)
 
-[1.0.0](https://github.com/pabloedusilva/Indios/releases/tag/v1.0.0) (2026-04-19)
+[1.0.0](https://github.com/pabloedusilva/IndiosManager/releases/tag/v1.0.0) (2026-04-19)
 
 ## [1.0.0](https://github.com/pabloedusilva/Indios/releases/tag/v1.0.0) (2026-05-11)
 
@@ -398,11 +685,11 @@ Para adicionar uma entrada ao changelog:
 
 ## Links Úteis
 
-- [Repositório](https://github.com/pabloedusilva/Indios)
-- [Issues](https://github.com/pabloedusilva/Indios/issues)
-- [Pull Requests](https://github.com/pabloedusilva/Indios/pulls)
-- [Releases](https://github.com/pabloedusilva/Indios/releases)
-- [Documentação](https://github.com/pabloedusilva/Indios#readme)
+- [Repositório](https://github.com/pabloedusilva/IndiosManager)
+- [Issues](https://github.com/pabloedusilva/IndiosManager/issues)
+- [Pull Requests](https://github.com/pabloedusilva/IndiosManager/pulls)
+- [Releases](https://github.com/pabloedusilva/IndiosManager/releases)
+- [Documentação](https://github.com/pabloedusilva/IndiosManager#readme)
 
 ---
 

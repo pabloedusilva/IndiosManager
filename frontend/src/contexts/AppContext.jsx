@@ -1,7 +1,8 @@
 ﻿import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { api } from '../services/api'
 import { isHoje } from '../utils/formatters'
-import toast from 'react-hot-toast'
+import { toast } from '../utils/toastWithSound'
+import { playCashSound } from '../services/audioService'
 
 const AppContext = createContext(null)
 
@@ -15,6 +16,10 @@ export function AppProvider({ children }) {
   const [errorCategorias, setErrorCategorias] = useState(null)
   const [errorPedidos, setErrorPedidos] = useState(null)
   const [errorPedidosAtivos, setErrorPedidosAtivos] = useState(null)
+  
+  // Estado global de download ZIP
+  const [baixandoZip, setBaixandoZip] = useState(false)
+  const [erroDownloadZip, setErroDownloadZip] = useState(false)
 
   // —— Fetch ——————————————————————————————————————————————————
   const carregarCategorias = useCallback(async () => {
@@ -160,6 +165,20 @@ export function AppProvider({ children }) {
     }
   }, [carregarPedidosAtivos, carregarPedidos])
 
+  const adicionarItensPedido = useCallback(async (id, itens) => {
+    try {
+      const pedidoAtualizado = await api.patch(`/pedidos/${id}/adicionar-itens`, { itens })
+      carregarPedidosAtivos()
+      carregarPedidos()
+      notificarDashboard()
+      toast.success(`${itens.length} item(ns) adicionado(s) ao pedido!`)
+      return pedidoAtualizado
+    } catch (err) {
+      toast.error(err.message || 'Erro ao adicionar itens ao pedido.')
+      throw err
+    }
+  }, [carregarPedidosAtivos, carregarPedidos])
+
   const marcarPronto = useCallback(async (id) => {
     try {
       await api.patch(`/pedidos/${id}/pronto`)
@@ -178,22 +197,14 @@ export function AppProvider({ children }) {
       carregarPedidos()
       notificarDashboard()
       const label = { pix: 'PIX', credito: 'Crédito', debito: 'Débito', dinheiro: 'Dinheiro' }[formaPagamento] ?? formaPagamento
-      toast.success(`Pedido finalizado! Pagamento via ${label} ✅`)
+      
+      // 🔊 Tocar som de cash register ao finalizar pedido
+      playCashSound()
+      
+      // Toast silencioso para não duplicar o som
+      toast.silent.success(`Pedido finalizado! Pagamento via ${label} ✅`)
     } catch (err) {
       toast.error(err.message || 'Erro ao finalizar pedido.')
-      throw err
-    }
-  }, [carregarPedidosAtivos, carregarPedidos])
-
-  const finalizarTodosSemPagamento = useCallback(async () => {
-    try {
-      const { finalizados = 0 } = await api.patch('/pedidos/finalizar-sem-pagamento')
-      await carregarPedidosAtivos()
-      await carregarPedidos()
-      notificarDashboard()
-      toast.success(`${finalizados} pedido${finalizados === 1 ? '' : 's'} finalizado${finalizados === 1 ? '' : 's'} sem pagamento!`)
-    } catch (err) {
-      toast.error(err.message || 'Erro ao concluir pedidos sem pagamento.')
       throw err
     }
   }, [carregarPedidosAtivos, carregarPedidos])
@@ -254,11 +265,16 @@ export function AppProvider({ children }) {
     toggleDisponibilidadeProduto,
     // Actions: Pedidos
     criarPedido,
+    adicionarItensPedido,
     marcarPronto,
     finalizarPedido,
     cancelarPedido,
     excluirPedido,
-    finalizarTodosSemPagamento,
+    // Estado global de download
+    baixandoZip,
+    setBaixandoZip,
+    erroDownloadZip,
+    setErroDownloadZip,
   }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
