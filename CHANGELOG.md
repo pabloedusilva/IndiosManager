@@ -5,6 +5,25 @@ Todas as mudanças notáveis deste projeto são documentadas aqui.
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [2.11.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.10.0...v2.11.0) (2026-09-20)
+
+### Novas Funcionalidades
+
+* adicionar geração automática de relatórios mensais ([e8d5a9f](https://github.com/pabloedusilva/IndiosManager/commit/e8d5a9fd32d7b00d454a6c4c1c16ec1e49b79caf))
+
+### Correções de Bugs
+
+* corrigir paginação e filtro de período das notas fiscais ([a793a68](https://github.com/pabloedusilva/IndiosManager/commit/a793a6841ae8bfe5dcf1699d7911ba9e5fbcc836))
+
+### Documentação
+
+* sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([87fc2e9](https://github.com/pabloedusilva/IndiosManager/commit/87fc2e98e62f446386a098306d422d653e095075))
+
+### Manutenção
+
+* forçar nova build do CI ([3fea591](https://github.com/pabloedusilva/IndiosManager/commit/3fea59192b065357203505e32ee5965587ed2afd))
+* mesclar branch 'develop' na main ([5ee5111](https://github.com/pabloedusilva/IndiosManager/commit/5ee511154d318c25b9ca1346f9942a13b906e080))
+
 Histórico completo de releases do projeto.
 
 ## v2.9.0 (30/08/2026)
