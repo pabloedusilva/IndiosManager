@@ -15,24 +15,26 @@ async function listar(req, res) {
   try {
     const { status, periodo, busca, limite, pagina } = req.query
     
-    console.log(`[listar] Listando notas fiscais - Status: ${status || 'todos'} | Período: ${periodo || 'todos'}`)
-    
     const resultado = await NotaFiscalModel.listar({
       status,
       periodo,
       busca,
-      limite: parseInt(limite) || 50,
+      limite: parseInt(limite) || 1000,
       pagina: parseInt(pagina) || 1
     })
     
-    console.log(`[listar] ${resultado.notas?.length || 0} nota(s) encontrada(s)`)
+    // Log de aviso se estiver próximo do limite
+    const limiteAtual = parseInt(limite) || 1000
+    if (resultado.notas?.length >= limiteAtual * 0.9) {
+      console.warn(`[notasFiscais] AVISO: ${resultado.notas.length} notas retornadas está próximo do limite de ${limiteAtual}. Total no banco: ${resultado.total}`)
+    }
     
     res.json({
       success: true,
       ...resultado
     })
   } catch (error) {
-    console.error('[listar] Erro:', error)
+    console.error('[notasFiscais] Erro ao listar:', error.message)
     res.status(500).json({
       success: false,
       message: 'Erro ao listar notas fiscais',
@@ -62,7 +64,6 @@ async function buscarPorId(req, res) {
     const nota = await NotaFiscalModel.buscarPorId(id)
     
     if (!nota) {
-      console.warn(`[buscarPorId] Nota fiscal não encontrada - ID: ${id}`)
       return res.status(404).json({
         success: false,
         message: 'Nota fiscal não encontrada'
@@ -125,6 +126,7 @@ async function buscarPorId(req, res) {
       nota: notaEnriquecida
     })
   } catch (error) {
+    console.error('[notasFiscais] Erro ao buscar nota:', error.message)
     res.status(500).json({
       success: false,
       message: 'Erro ao buscar nota fiscal',
@@ -143,8 +145,6 @@ async function emitir(req, res) {
     const { pedidoId, cpfDestinatario, ufDestinatario, observacoes } = req.body
     const usuarioId = req.usuario.id
     
-    console.log(`[emitir] Emitindo nota fiscal - Pedido: ${pedidoId} | Usuário: ${usuarioId}`)
-    
     // Validações
     if (!pedidoId) {
       return res.status(400).json({
@@ -161,15 +161,13 @@ async function emitir(req, res) {
     
     const nota = await NotaFiscalService.emitir(pedidoId, usuarioId, dadosAdicionais)
     
-    console.log(`[emitir] Nota fiscal emitida - ID: ${nota.id} | Status: ${nota.status}`)
-    
     res.status(201).json({
       success: true,
       message: 'Nota fiscal emitida com sucesso',
       nota
     })
   } catch (error) {
-    console.error('[emitir] Erro:', error)
+    console.error('[notasFiscais] Erro ao emitir:', error.message)
     // Erros específicos
     if (error.message.includes('não encontrado') || 
         error.message.includes('já existe') ||
@@ -180,6 +178,7 @@ async function emitir(req, res) {
       })
     }
     
+    console.error('[notasFiscais] Erro ao emitir:', error.message)
     res.status(500).json({
       success: false,
       message: 'Erro ao emitir nota fiscal',
@@ -439,7 +438,7 @@ async function downloadXML(req, res) {
     })
     res.send(xml)
   } catch (error) {
-    console.error('[downloadXML] Erro:', error)
+    console.error('[notasFiscais] Erro ao baixar XML:', error.message)
     res.status(500).json({
       success: false,
       message: 'Erro ao baixar XML',
@@ -540,7 +539,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
     hojeSemDia.setDate(1) // Comparar apenas ano e mês
     
     if (periodoDate > hojeSemDia) {
-      if (isDebug) console.warn(`[downloadBackup] Período futuro solicitado: ${periodo}`)
+      if (isDebug) console.warn(`[notasFiscais] Período futuro solicitado: ${periodo}`)
       return res.status(400).json({
         success: false,
         message: 'Não é possível baixar backup de períodos futuros'
@@ -554,8 +553,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
     
     if (hoje < dataLiberacao) {
       if (isDebug) {
-        console.warn(`[downloadBackup] Tentativa de download antes da data de liberação`)
-        console.warn(`[downloadBackup] Período: ${periodo}, Liberação: ${dataLiberacao.toISOString().split('T')[0]}`)
+        console.warn(`[notasFiscais] Download antes da liberação - Período: ${periodo}, Liberação: ${dataLiberacao.toISOString().split('T')[0]}`)
       }
       
       return res.status(403).json({
@@ -578,7 +576,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
     const cnpj = process.env.EMPRESA_CNPJ
     
     if (!username || !password) {
-      console.error('[downloadBackup] Credenciais do Focus NFe não configuradas')
+      console.error('[notasFiscais] Credenciais Focus NFe não configuradas')
       return res.status(500).json({
         success: false,
         message: 'Credenciais de autenticação não configuradas. Verifique FOCUS_NFE_USERNAME e FOCUS_NFE_PASSWORD no .env'
@@ -586,7 +584,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
     }
     
     if (!cnpj) {
-      console.error('[downloadBackup] CNPJ da empresa não configurado')
+      console.error('[notasFiscais] CNPJ da empresa não configurado')
       return res.status(500).json({
         success: false,
         message: 'CNPJ da empresa não configurado. Verifique EMPRESA_CNPJ no .env'
@@ -606,14 +604,9 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
     
     const backupUrl = `${baseUrl}/v2/backups/${cnpj}.json`
     
-    // Log informativo em produção
-    console.log(`[downloadBackup] Download de ${tipo} solicitado - Período: ${periodo} | Usuário: ${usuarioId}`)
-    
-    // Logs detalhados apenas em debug
+    // Log informativo
     if (isDebug) {
-      console.log(`[downloadBackup] CNPJ: ${cnpj}`)
-      console.log(`[downloadBackup] Ambiente: ${fiscalConfig.ENV}`)
-      console.log(`[downloadBackup] URL: ${backupUrl}`)
+      console.log(`[notasFiscais] Download ${tipo} - Período: ${periodo} | CNPJ: ${cnpj} | Ambiente: ${fiscalConfig.ENV}`)
     }
     
     const auth = Buffer.from(`${username}:${password}`).toString('base64')
@@ -640,7 +633,6 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
       // ═══════════════════════════════════════════════════════════════════════
       
       if (statusCode === 404) {
-        console.warn(`[downloadBackup] Backup não encontrado - Período: ${periodo}`)
         return res.status(404).json({
           success: false,
           message: 'Backup não disponível para este período. O backup pode ainda não ter sido gerado ou não há notas neste período.'
@@ -654,11 +646,9 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
         })
         
         proxyRes.on('end', () => {
-          console.error(`[downloadBackup] Erro de autenticação: ${statusCode}`)
-          
+          console.error('[notasFiscais] Erro de autenticação Focus NFe:', statusCode)
           if (isDebug) {
-            console.error(`[downloadBackup] Detalhes do erro: ${errorData}`)
-            console.error(`[downloadBackup] Username: ${username ? username.substring(0, 10) + '...' : 'não definido'}`)
+            console.error(`[notasFiscais] Detalhes: ${errorData}`)
           }
           
           return res.status(401).json({
@@ -671,7 +661,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
       }
       
       if (statusCode !== 200) {
-        console.error(`[downloadBackup] Erro inesperado da API: ${statusCode}`)
+        console.error('[notasFiscais] Erro inesperado da API Focus NFe:', statusCode)
         
         let errorData = ''
         proxyRes.on('data', (chunk) => {
@@ -679,7 +669,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
         })
         
         proxyRes.on('end', () => {
-          if (isDebug) console.error(`[downloadBackup] Resposta: ${errorData}`)
+          if (isDebug) console.error(`[notasFiscais] Resposta API: ${errorData}`)
           return res.status(statusCode).json({
             success: false,
             message: 'Erro ao buscar backup na API Focus NFe'
@@ -702,10 +692,6 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
         try {
           const backupList = JSON.parse(jsonData)
           
-          if (isDebug) {
-            console.log(`[downloadBackup] Backups disponíveis: ${Array.isArray(backupList) ? backupList.length : 'formato inválido'}`)
-          }
-          
           // Normalizar período (remover hífen): "2026-08" -> "202608"
           const periodoNormalizado = periodo.replace('-', '')
           
@@ -713,10 +699,8 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
           const backupMes = Array.isArray(backupList) ? backupList.find(b => b.mes === periodoNormalizado) : null
           
           if (!backupMes) {
-            console.warn(`[downloadBackup] Período ${periodo} não encontrado nos backups disponíveis`)
-            
-            if (isDebug && Array.isArray(backupList)) {
-              console.log(`[downloadBackup] Períodos disponíveis: ${backupList.map(b => b.mes).join(', ')}`)
+            if (isDebug) {
+              console.log(`[notasFiscais] Período ${periodo} não encontrado. Disponíveis: ${Array.isArray(backupList) ? backupList.map(b => b.mes).join(', ') : 'nenhum'}`)
             }
             
             return res.status(404).json({
@@ -734,7 +718,6 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
             nomeArquivo = `DANFEs_NFCe_${periodo}.zip`
             
             if (!downloadUrl) {
-              console.warn(`[downloadBackup] DANFEs não disponíveis - Período: ${periodo}`)
               return res.status(404).json({
                 success: false,
                 message: 'DANFEs não disponíveis para este período. Isso pode ocorrer quando apenas XMLs foram gerados.'
@@ -745,7 +728,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
             nomeArquivo = `XMLs_NFCe_${periodo}.zip`
             
             if (!downloadUrl) {
-              console.error(`[downloadBackup] XMLs não disponíveis - Período: ${periodo}`)
+              console.error('[notasFiscais] XMLs não disponíveis para o período')
               return res.status(404).json({
                 success: false,
                 message: 'XMLs não disponíveis para este período.'
@@ -754,7 +737,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
           }
           
           if (isDebug) {
-            console.log(`[downloadBackup] Backup encontrado - Tipo: ${tipo} | URL: ${downloadUrl.substring(0, 50)}...`)
+            console.log(`[notasFiscais] Download iniciado - Tipo: ${tipo} | Período: ${periodo}`)
           }
           
           // ═══════════════════════════════════════════════════════════════════
@@ -774,7 +757,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
           
           const fileReq = fileProtocolo.request(fileOptions, (fileRes) => {
             if (fileRes.statusCode !== 200) {
-              console.error(`[downloadBackup] Erro ao baixar arquivo: ${fileRes.statusCode}`)
+              console.error('[notasFiscais] Erro ao baixar arquivo, status:', fileRes.statusCode)
               return res.status(fileRes.statusCode).json({
                 success: false,
                 message: 'Erro ao baixar arquivo ZIP'
@@ -798,18 +781,20 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
             fileRes.pipe(res)
             
             fileRes.on('end', () => {
-              console.log(`[downloadBackup] Download concluído - Tipo: ${tipo} | Período: ${periodo} | Usuário: ${usuarioId}`)
+              if (isDebug) {
+                console.log(`[notasFiscais] Download concluído - ${tipo} | Período: ${periodo}`)
+              }
               resolve()
             })
             
             fileRes.on('error', (err) => {
-              console.error(`[downloadBackup] Erro no streaming:`, err)
+              console.error('[notasFiscais] Erro no streaming:', err.message)
               reject(err)
             })
           })
           
           fileReq.on('error', (err) => {
-            console.error(`[downloadBackup] Erro ao baixar arquivo:`, err)
+            console.error('[notasFiscais] Erro ao baixar arquivo:', err.message)
             if (!res.headersSent) {
               return res.status(500).json({
                 success: false,
@@ -820,7 +805,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
           })
           
           fileReq.on('timeout', () => {
-            console.error(`[downloadBackup] Timeout ao baixar arquivo`)
+            console.error('[notasFiscais] Timeout ao baixar arquivo')
             fileReq.destroy()
             if (!res.headersSent) {
               return res.status(504).json({
@@ -834,7 +819,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
           fileReq.end()
           
         } catch (parseError) {
-          console.error(`[downloadBackup] Erro ao processar resposta da API:`, parseError)
+          console.error('[notasFiscais] Erro ao processar resposta da API:', parseError.message)
           return res.status(500).json({
             success: false,
             message: 'Erro ao processar resposta da API'
@@ -844,7 +829,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
     })
     
     proxyReq.on('error', (err) => {
-      console.error(`[downloadBackup] Erro ao conectar com Focus NFe:`, err)
+      console.error('[notasFiscais] Erro ao conectar com Focus NFe:', err.message)
       
       if (!res.headersSent) {
         return res.status(500).json({
@@ -856,7 +841,7 @@ async function downloadBackupFocusNFe({ periodo, tipo, res, usuarioId }) {
     })
     
     proxyReq.on('timeout', () => {
-      console.error(`[downloadBackup] Timeout na requisição ao Focus NFe`)
+      console.error('[notasFiscais] Timeout na requisição ao Focus NFe')
       proxyReq.destroy()
       
       if (!res.headersSent) {
@@ -898,7 +883,7 @@ async function downloadDanfesMes(req, res) {
     })
     
   } catch (error) {
-    console.error('[downloadDanfesMes] Erro inesperado:', error)
+    console.error('[notasFiscais] Erro ao baixar DANFEs:', error.message)
     
     if (!res.headersSent) {
       return res.status(500).json({
@@ -936,7 +921,7 @@ async function downloadXmlsMes(req, res) {
     })
     
   } catch (error) {
-    console.error('[downloadXmlsMes] Erro inesperado:', error)
+    console.error('[notasFiscais] Erro ao baixar XMLs:', error.message)
     
     if (!res.headersSent) {
       return res.status(500).json({

@@ -10,6 +10,9 @@ const BASE_PATH = '/notas-fiscais'
 
 /**
  * Listar notas fiscais com filtros
+ * 
+ * IMPORTANTE: Por padrão, busca até 1000 notas para evitar problemas de paginação
+ * em telas que precisam exibir todas as notas (como Contabilidade)
  */
 export async function listar(filtros = {}) {
   try {
@@ -30,9 +33,10 @@ export async function listar(filtros = {}) {
     if (filtros.page) {
       params.append('page', filtros.page)
     }
-    if (filtros.limit) {
-      params.append('limit', filtros.limit)
-    }
+    
+    // Sempre passa um limite alto para garantir que todas as notas sejam carregadas
+    // O backend tem um limite de 1000 por padrão
+    params.append('limit', filtros.limit || 1000)
 
     const query = params.toString()
     const path = query ? `${BASE_PATH}?${query}` : BASE_PATH
