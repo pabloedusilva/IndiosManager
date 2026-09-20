@@ -83,7 +83,6 @@ export default function Contabilidade() {
     consultarStatus,
     downloadXML,
     downloadDANFE,
-    downloadDanfesMes,
     downloadXmlsMes,
     refetch,
     stats,
@@ -94,8 +93,7 @@ export default function Contabilidade() {
   // Estados globais de download
   const { baixandoZip, setBaixandoZip, erroDownloadZip, setErroDownloadZip } = useApp()
 
-  // Estados locais para downloads separados
-  const [baixandoDanfes, setBaixandoDanfes] = useState(false)
+  // Estado local para download de XMLs
   const [baixandoXmls, setBaixandoXmls] = useState(false)
 
   // Estados
@@ -314,36 +312,6 @@ export default function Contabilidade() {
 
   const handleLimparPeriodo = () => {
     setPeriodoSelecionado(null)
-  }
-
-  const handleDownloadDanfes = async () => {
-    if (!mesAtivo) return
-
-    if (notasAutorizadasMes === 0) {
-      toast.error('Não há notas autorizadas para baixar neste período')
-      return
-    }
-
-    // Validar se pode baixar (dia 2 ou posterior para o mês atual)
-    const podeBaixar = podeBaixarBackup(mesAtivo)
-    if (!podeBaixar.permitido) {
-      toast.error(podeBaixar.mensagem)
-      return
-    }
-
-    setBaixandoDanfes(true)
-    setBaixandoZip(true) // Indicador global
-    setErroDownloadZip(false)
-    try {
-      await downloadDanfesMes(mesAtivo)
-      toast.success('Download das DANFEs concluído com sucesso!')
-    } catch (error) {
-      setErroDownloadZip(true)
-      toast.error(error.message || 'Erro ao baixar DANFEs')
-    } finally {
-      setBaixandoDanfes(false)
-      setBaixandoZip(false)
-    }
   }
 
   const handleDownloadXmls = async () => {
@@ -690,28 +658,14 @@ export default function Contabilidade() {
             </div>
           )}
 
-          {/* Botão Baixar DANFEs */}
-          <button
-            onClick={handleDownloadDanfes}
-            disabled={baixandoDanfes || !statusDownloadMesAtivo.permitido}
-            title={!statusDownloadMesAtivo.permitido ? statusDownloadMesAtivo.mensagem : 'Baixar DANFEs do período (PDFs)'}
-            className={`btn-primary gap-2 transition-smooth ${!statusDownloadMesAtivo.permitido
-                ? 'opacity-40 cursor-not-allowed hover:shadow-none'
-                : 'hover:shadow-brand-lg disabled:opacity-60 disabled:cursor-not-allowed'
-              }`}
-          >
-            <MdDownload size={18} />
-            {baixandoDanfes ? 'Baixando...' : 'Baixar DANFEs'}
-          </button>
-
           {/* Botão Baixar XMLs */}
           <button
             onClick={handleDownloadXmls}
             disabled={baixandoXmls || !statusDownloadMesAtivo.permitido}
             title={!statusDownloadMesAtivo.permitido ? statusDownloadMesAtivo.mensagem : 'Baixar XMLs do período'}
-            className={`btn-secondary gap-2 transition-smooth ${!statusDownloadMesAtivo.permitido
+            className={`btn-primary gap-2 transition-smooth ${!statusDownloadMesAtivo.permitido
                 ? 'opacity-40 cursor-not-allowed hover:shadow-none'
-                : 'hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed'
+                : 'hover:shadow-brand-lg disabled:opacity-60 disabled:cursor-not-allowed'
               }`}
           >
             <MdDownload size={18} />
