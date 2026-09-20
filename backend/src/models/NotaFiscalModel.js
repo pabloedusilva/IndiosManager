@@ -44,6 +44,9 @@ class NotaFiscalModel {
   /**
    * Criar nova nota fiscal
    * @param {object} dados - Dados da nota
+   * 
+   * IMPORTANTE: Sempre define emitido_em (usa data atual como fallback)
+   * para garantir consistência nas queries de período
    */
   async criar(dados) {
     const query = `
@@ -72,11 +75,12 @@ class NotaFiscalModel {
       dados.valor_total,
       dados.provider_ref || null,
       JSON.stringify(dados.metadados || {}),
-      dados.emitido_em || new Date()
+      dados.emitido_em || new Date() // SEMPRE define uma data
     ]
     
     try {
       const result = await pool.query(query, values)
+      console.log(`[NotaFiscalModel.criar] Nota criada - ID: ${result.rows[0].id} | Status: ${dados.status}`)
       return result.rows[0].id
     } catch (error) {
       console.error('[NotaFiscalModel] Erro ao criar:', error)
@@ -150,13 +154,18 @@ class NotaFiscalModel {
   /**
    * Listar notas com filtros
    * @param {object} filtros - { status, periodo, busca, limite, pagina }
+   * 
+   * IMPORTANTE: Usa COALESCE(emitido_em, criado_em) para garantir que notas
+   * em status "emitindo" (que ainda não têm emitido_em) sejam incluídas
+   * nos filtros de período e ordenação. Isso evita que notas "desapareçam"
+   * enquanto estão sendo processadas pela SEFAZ.
    */
   async listar(filtros = {}) {
     const {
       status,
       periodo,
       busca,
-      limite = 50,
+      limite = 1000, // AUMENTADO: Padrão 1000 para evitar paginação em telas de listagem completa
       pagina = 1
     } = filtros
     
@@ -186,13 +195,16 @@ class NotaFiscalModel {
         const dataInicio = new Date(parseInt(ano), parseInt(mes) - 1, 1)
         const dataFim = new Date(parseInt(ano), parseInt(mes), 0, 23, 59, 59) // Último dia do mês
         
-        query += ` AND nf.emitido_em >= $${paramCount++} AND nf.emitido_em <= $${paramCount++}`
+        // CORRIGIDO: Usar COALESCE para pegar emitido_em OU criado_em
+        // Isso garante que notas em status "emitindo" (sem emitido_em) também sejam incluídas
+        query += ` AND COALESCE(nf.emitido_em, nf.criado_em) >= $${paramCount++} 
+                   AND COALESCE(nf.emitido_em, nf.criado_em) <= $${paramCount++}`
         values.push(dataInicio, dataFim)
       } else {
         // Períodos relativos (7d, 30d, 90d)
         const dataInicio = this._calcularDataInicio(periodo)
         if (dataInicio) {
-          query += ` AND nf.emitido_em >= $${paramCount++}`
+          query += ` AND COALESCE(nf.emitido_em, nf.criado_em) >= $${paramCount++}`
           values.push(dataInicio)
         }
       }
@@ -209,8 +221,8 @@ class NotaFiscalModel {
       paramCount++
     }
     
-    // Ordenação
-    query += ` ORDER BY nf.emitido_em DESC`
+    // Ordenação - usar COALESCE para garantir que todas as notas apareçam ordenadas
+    query += ` ORDER BY COALESCE(nf.emitido_em, nf.criado_em) DESC`
     
     // Paginação
     const offset = (pagina - 1) * limite
@@ -366,7 +378,8 @@ class NotaFiscalModel {
         COUNT(CASE WHEN status = 'cancelada' THEN 1 END) as notas_canceladas,
         COUNT(CASE WHEN status = 'erro' THEN 1 END) as notas_erro
       FROM notas_fiscais
-      WHERE emitido_em >= $1 AND emitido_em <= $2
+      WHERE COALESCE(emitido_em, criado_em) >= $1 
+        AND COALESCE(emitido_em, criado_em) <= $2
     `
     
     try {

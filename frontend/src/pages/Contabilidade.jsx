@@ -25,6 +25,8 @@ import {
   MdDownload,
   MdFilterList,
   MdInfo,
+  MdChevronLeft,
+  MdChevronRight,
 } from 'react-icons/md'
 
 // Importar componentes
@@ -44,17 +46,19 @@ import { KpiCard } from '../components/common'
 // ── Helpers ───────────────────────────────────────────────────
 
 const MESES_PT = [
-  'Janeiro','Fevereiro','Março','Abril','Maio','Junho',
-  'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro',
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ]
 
 const FILTROS_STATUS = [
-  { id: 'todos',      label: 'Todos' },
+  { id: 'todos', label: 'Todos' },
   { id: 'autorizada', label: 'Autorizadas' },
-  { id: 'emitindo',   label: 'Processando' },
-  { id: 'cancelada',  label: 'Canceladas' },
-  { id: 'erro',       label: 'Com Erro' },
+  { id: 'emitindo', label: 'Processando' },
+  { id: 'cancelada', label: 'Canceladas' },
+  { id: 'erro', label: 'Com Erro' },
 ]
+
+const POR_PAGINA = 50 // Mesma constante do Histórico
 
 function nomeMes(mesStr) {
   if (!mesStr) return ''
@@ -86,10 +90,10 @@ export default function Contabilidade() {
     buscarPorId,
     notasPorMes,
   } = useNotasFiscais()
-  
+
   // Estados globais de download
   const { baixandoZip, setBaixandoZip, erroDownloadZip, setErroDownloadZip } = useApp()
-  
+
   // Estados locais para downloads separados
   const [baixandoDanfes, setBaixandoDanfes] = useState(false)
   const [baixandoXmls, setBaixandoXmls] = useState(false)
@@ -101,6 +105,7 @@ export default function Contabilidade() {
   const [mesSelecionado, setMesSelecionado] = useState(null)
   const [termoBusca, setTermoBusca] = useState('')
   const [filtroStatus, setFiltroStatus] = useState('todos')
+  const [pagina, setPagina] = useState(1) // Estado de paginação
   const [estatisticasMes, setEstatisticasMes] = useState(null)
   const [loadingEstatisticas, setLoadingEstatisticas] = useState(false)
   const [impostosPeriodo, setImpostosPeriodo] = useState(null)
@@ -135,7 +140,7 @@ export default function Contabilidade() {
   // Função para buscar estatísticas e impostos
   const buscarDadosPeriodo = useCallback(async (periodo) => {
     if (!periodo) return
-    
+
     // Buscar estatísticas
     setLoadingEstatisticas(true)
     try {
@@ -172,7 +177,7 @@ export default function Contabilidade() {
     try {
       // 1. Recarregar todas as notas
       await refetch()
-      
+
       // 2. Recarregar estatísticas e impostos do período ativo
       await buscarDadosPeriodo(mesAtivo)
     } catch (error) {
@@ -197,8 +202,8 @@ export default function Contabilidade() {
   // Notas filtradas pelo mês ativo
   const notasFiltradas = useMemo(() => {
     if (!mesAtivo || !notasPorMes[mesAtivo]) return []
-    
-    let notas = notasPorMes[mesAtivo].sort((a, b) => 
+
+    let notas = notasPorMes[mesAtivo].sort((a, b) =>
       new Date(b.criadoEm).getTime() - new Date(a.criadoEm).getTime()
     )
 
@@ -226,6 +231,21 @@ export default function Contabilidade() {
     return notas
   }, [mesAtivo, notasPorMes, termoBusca, filtroStatus])
 
+  // Notas da página atual
+  const notasPagina = useMemo(() => {
+    const inicio = (pagina - 1) * POR_PAGINA
+    const fim = inicio + POR_PAGINA
+    return notasFiltradas.slice(inicio, fim)
+  }, [notasFiltradas, pagina])
+
+  // Total de páginas
+  const totalPaginas = Math.max(1, Math.ceil(notasFiltradas.length / POR_PAGINA))
+
+  // Resetar para página 1 quando filtros ou mês mudarem
+  useEffect(() => {
+    setPagina(1)
+  }, [mesAtivo, filtroStatus, termoBusca])
+
   // Contar notas autorizadas do mês ativo (sem filtros)
   const notasAutorizadasMes = useMemo(() => {
     if (!mesAtivo || !notasPorMes[mesAtivo]) return 0
@@ -234,7 +254,7 @@ export default function Contabilidade() {
 
   // Verificar se há filtros ativos
   const filtrosAtivos = termoBusca !== '' || filtroStatus !== 'todos'
-  
+
   const limparFiltros = () => {
     setTermoBusca('')
     setFiltroStatus('todos')
@@ -268,7 +288,7 @@ export default function Contabilidade() {
       setModalCancelar(null)
       setModalVisualizar(null) // Fechar também o modal de visualização
       toast.success('Nota fiscal cancelada com sucesso!')
-      
+
       // Atualizar tudo após cancelamento
       await atualizarTudo()
     } catch (err) {
@@ -279,7 +299,7 @@ export default function Contabilidade() {
   const handleConsultarStatus = async (notaId) => {
     try {
       await consultarStatus(notaId)
-      
+
       // Atualizar estatísticas e impostos após consulta
       await buscarDadosPeriodo(mesAtivo)
     } catch (error) {
@@ -298,7 +318,7 @@ export default function Contabilidade() {
 
   const handleDownloadDanfes = async () => {
     if (!mesAtivo) return
-    
+
     if (notasAutorizadasMes === 0) {
       toast.error('Não há notas autorizadas para baixar neste período')
       return
@@ -328,7 +348,7 @@ export default function Contabilidade() {
 
   const handleDownloadXmls = async () => {
     if (!mesAtivo) return
-    
+
     if (notasAutorizadasMes === 0) {
       toast.error('Não há notas autorizadas para baixar neste período')
       return
@@ -359,16 +379,16 @@ export default function Contabilidade() {
   // Verificar se pode baixar backup do período
   const podeBaixarBackup = (periodo) => {
     if (!periodo) return { permitido: false, mensagem: 'Período inválido' }
-    
+
     const hoje = new Date()
     const [ano, mes] = periodo.split('-').map(Number)
-    
+
     // Criar data do período (dia 1)
     const dataPeriodo = new Date(ano, mes - 1, 1)
-    
+
     // Criar data do dia 2 do mês seguinte ao período
     const dataLiberacao = new Date(ano, mes, 2) // mês seguinte, dia 2
-    
+
     // Se hoje é antes da data de liberação, bloquear
     if (hoje < dataLiberacao) {
       return {
@@ -376,7 +396,7 @@ export default function Contabilidade() {
         mensagem: 'Backup estará disponível a partir do dia 2 do próximo mês'
       }
     }
-    
+
     return { permitido: true, mensagem: '' }
   }
 
@@ -394,7 +414,7 @@ export default function Contabilidade() {
           <div className="h-8 w-64 bg-brand-border animate-pulse rounded-xl" />
           <div className="h-10 w-32 bg-brand-border animate-pulse rounded-xl" />
         </div>
-        
+
         {/* KPIs skeleton */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[1, 2, 3, 4].map(i => (
@@ -505,11 +525,10 @@ export default function Contabilidade() {
                 <button
                   key={m.periodo}
                   onClick={() => setMesSelecionado(m.periodo)}
-                  className={`px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200 whitespace-nowrap ${
-                    mesAtivo === m.periodo
+                  className={`px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200 whitespace-nowrap ${mesAtivo === m.periodo
                       ? 'bg-gradient-brand text-white shadow-brand'
                       : 'text-brand-text-2 hover:text-brand-text hover:bg-brand-bg'
-                  }`}
+                    }`}
                 >
                   {nomeMesAbrev(m.periodo)}
                 </button>
@@ -573,16 +592,16 @@ export default function Contabilidade() {
       {mesAtivo && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Estatísticas de Status do Mês */}
-          <EstatisticasNotas 
-            stats={estatisticasMes} 
-            loading={loadingEstatisticas} 
+          <EstatisticasNotas
+            stats={estatisticasMes}
+            loading={loadingEstatisticas}
           />
 
           {/* Card de Impostos do Período */}
           {notasAutorizadasMes > 0 ? (
-            <CardImpostosPeriodo 
-              dados={impostosPeriodo} 
-              loading={loadingImpostos} 
+            <CardImpostosPeriodo
+              dados={impostosPeriodo}
+              loading={loadingImpostos}
             />
           ) : (
             <div className="card flex flex-col items-center justify-center gap-3 py-12 text-center">
@@ -670,17 +689,16 @@ export default function Contabilidade() {
               </div>
             </div>
           )}
-          
+
           {/* Botão Baixar DANFEs */}
           <button
             onClick={handleDownloadDanfes}
             disabled={baixandoDanfes || !statusDownloadMesAtivo.permitido}
             title={!statusDownloadMesAtivo.permitido ? statusDownloadMesAtivo.mensagem : 'Baixar DANFEs do período (PDFs)'}
-            className={`btn-primary gap-2 transition-smooth ${
-              !statusDownloadMesAtivo.permitido 
-                ? 'opacity-40 cursor-not-allowed hover:shadow-none' 
+            className={`btn-primary gap-2 transition-smooth ${!statusDownloadMesAtivo.permitido
+                ? 'opacity-40 cursor-not-allowed hover:shadow-none'
                 : 'hover:shadow-brand-lg disabled:opacity-60 disabled:cursor-not-allowed'
-            }`}
+              }`}
           >
             <MdDownload size={18} />
             {baixandoDanfes ? 'Baixando...' : 'Baixar DANFEs'}
@@ -691,11 +709,10 @@ export default function Contabilidade() {
             onClick={handleDownloadXmls}
             disabled={baixandoXmls || !statusDownloadMesAtivo.permitido}
             title={!statusDownloadMesAtivo.permitido ? statusDownloadMesAtivo.mensagem : 'Baixar XMLs do período'}
-            className={`btn-secondary gap-2 transition-smooth ${
-              !statusDownloadMesAtivo.permitido 
-                ? 'opacity-40 cursor-not-allowed hover:shadow-none' 
+            className={`btn-secondary gap-2 transition-smooth ${!statusDownloadMesAtivo.permitido
+                ? 'opacity-40 cursor-not-allowed hover:shadow-none'
                 : 'hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed'
-            }`}
+              }`}
           >
             <MdDownload size={18} />
             {baixandoXmls ? 'Baixando...' : 'Baixar XMLs'}
@@ -730,28 +747,90 @@ export default function Contabilidade() {
           <EmptyStateNotas tipo="nenhuma" />
         )
       ) : (
-        <div className="space-y-2">
-          {filtrosAtivos && (
-            <div className="flex items-center gap-2 px-1 py-2">
-              <span className="text-sm text-brand-text-3">
-                {notasFiltradas.length} {notasFiltradas.length === 1 ? 'resultado encontrado' : 'resultados encontrados'}
-              </span>
+        <>
+          <div className="space-y-2">
+            {filtrosAtivos && (
+              <div className="flex items-center gap-2 px-1 py-2">
+                <span className="text-sm text-brand-text-3">
+                  {notasFiltradas.length} {notasFiltradas.length === 1 ? 'resultado encontrado' : 'resultados encontrados'}
+                </span>
+              </div>
+            )}
+            {notasPagina.map((nota) => (
+              <CardNotaFiscal
+                key={nota.id}
+                nota={nota}
+                onVisualizarDetalhes={handleVisualizarNota}
+                onCancelar={handleCancelarNota}
+                onDownloadXML={downloadXML}
+                onDownloadDANFE={downloadDANFE}
+              />
+            ))}
+          </div>
+
+          {/* ── Paginação ─────────────────────────────── */}
+          {totalPaginas > 1 && (
+            <div className="flex items-center justify-center gap-1.5 pt-2">
+              <button
+                onClick={() => setPagina((p) => Math.max(1, p - 1))}
+                disabled={pagina === 1}
+                className="w-8 h-8 rounded-xl flex items-center justify-center border border-brand-border
+                     text-brand-text-3 hover:text-brand-text hover:border-brand-orange/40
+                     disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              >
+                <MdChevronLeft size={18} />
+              </button>
+
+              {Array.from({ length: totalPaginas }, (_, i) => i + 1)
+                .filter(
+                  (n) =>
+                    n === 1 ||
+                    n === totalPaginas ||
+                    Math.abs(n - pagina) <= 2
+                )
+                .reduce((acc, n, idx, arr) => {
+                  if (idx > 0 && n - arr[idx - 1] > 1) {
+                    acc.push("...");
+                  }
+
+                  acc.push(n);
+                  return acc;
+                }, [])
+                .map((item, idx) =>
+                  item === "..." ? (
+                    <span
+                      key={`ellipsis-${idx}`}
+                      className="w-8 text-center text-xs text-brand-text-3"
+                    >
+                      …
+                    </span>
+                  ) : (
+                    <button
+                      key={item}
+                      onClick={() => setPagina(item)}
+                      className={`w-8 h-8 rounded-xl text-xs font-bold transition-all ${pagina === item
+                          ? "bg-gradient-brand text-white shadow-brand"
+                          : "border border-brand-border text-brand-text-2 hover:border-brand-orange/40 hover:text-brand-text"
+                        }`}
+                    >
+                      {item}
+                    </button>
+                  )
+                )}
+
+              <button
+                onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))}
+                disabled={pagina === totalPaginas}
+                className="w-8 h-8 rounded-xl flex items-center justify-center border border-brand-border
+                     text-brand-text-3 hover:text-brand-text hover:border-brand-orange/40
+                     disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              >
+                <MdChevronRight size={18} />
+              </button>
             </div>
           )}
-          {notasFiltradas.map((nota) => (
-            <CardNotaFiscal
-              key={nota.id}
-              nota={nota}
-              onVisualizarDetalhes={handleVisualizarNota}
-              onCancelar={handleCancelarNota}
-              onDownloadXML={downloadXML}
-              onDownloadDANFE={downloadDANFE}
-            />
-          ))}
-        </div>
+        </>
       )}
-
-      {/* Modais */}
       <ModalVisualizarNota
         isOpen={!!modalVisualizar}
         onClose={() => setModalVisualizar(null)}

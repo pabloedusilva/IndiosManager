@@ -97,6 +97,45 @@ app.use((err, req, res, next) => {
 })
 
 // =============================================================
+//  JOBS AGENDADOS
+// =============================================================
+
+// Garantir que a tabela de logs existe
+const jobLogger = require('./jobs/jobExecutionLogger')
+jobLogger.criarTabelaSeNaoExistir().then(sucesso => {
+  if (sucesso) {
+    console.log('[Jobs] ✓ Tabela job_execucoes verificada/criada')
+  } else {
+    console.warn('[Jobs] ⚠ Não foi possível criar tabela job_execucoes (talvez já exista)')
+  }
+})
+
+// Job: Geração automática de relatórios mensais
+// Executa todo dia 01 de cada mês às 03:00 AM (horário de Brasília)
+const cron = require('node-cron')
+
+cron.schedule('0 3 1 * *', async () => {
+  try {
+    console.log('\n[Scheduler] Iniciando job de geração de relatório mensal...')
+    const relatorioJob = require('./jobs/gerarRelatorioMensal')
+    const resultado = await relatorioJob.executar()
+    
+    if (resultado.success) {
+      console.log(`[Scheduler] ✓ Job concluído: ${resultado.status}`)
+    } else {
+      console.error(`[Scheduler] ✗ Job falhou: ${resultado.status}`)
+    }
+  } catch (erro) {
+    console.error('[Scheduler] ✗ Erro ao executar job:', erro.message)
+  }
+}, {
+  scheduled: true,
+  timezone: 'America/Sao_Paulo'
+})
+
+console.log('[Scheduler] ✓ Job agendado: Relatórios mensais (todo dia 01 às 03:00 AM)')
+
+// =============================================================
 //  INICIALIZAÇÃO DO SERVIDOR
 // =============================================================
 
