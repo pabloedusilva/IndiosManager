@@ -186,7 +186,7 @@ export default function Login() {
       </div>
 
       {/* ── Rodapé ───────────────────────────────────────── */}
-      <div className="relative z-10 flex items-center justify-between px-6 pb-2">
+      <div className="relative z-10 grid grid-cols-3 items-center px-6 pb-2">
         {/* Nome e Versão (esquerda) */}
         <span 
           className="text-[10px] font-mono leading-none"
@@ -195,8 +195,8 @@ export default function Login() {
           Índio's Manager v{packageJson.version}
         </span>
 
-        {/* Créditos (centro-direita) */}
-        <p className="text-center text-xs text-brand-text-3 flex-1 leading-none">
+        {/* Créditos (centro absoluto) */}
+        <p className="text-center text-xs text-brand-text-3 leading-none">
           Desenvolvido por{' '}
           <a
             href="https://github.com/pabloedusilva"
@@ -207,6 +207,9 @@ export default function Login() {
             Pablo Silva
           </a>
         </p>
+
+        {/* Espaço vazio (direita para balancear) */}
+        <div></div>
       </div>
 
     </div>

@@ -153,14 +153,14 @@ export function ConnectionProvider({ children }) {
           </div>
 
           {/* ── Footer ─────────────────────────────────────────── */}
-          <div className="flex items-center justify-between px-6 pb-4">
+          <div className="grid grid-cols-3 items-center px-6 pb-4">
             {/* Nome e Versão (esquerda) */}
             <span className="text-[10px] text-white/40 font-mono leading-none">
               Índio's Manager v{packageJson.version}
             </span>
 
-            {/* Créditos (centro-direita) */}
-            <p className="text-center text-xs text-white/30 flex-1 leading-none">
+            {/* Créditos (centro absoluto) */}
+            <p className="text-center text-xs text-white/30 leading-none">
               Desenvolvido por{' '}
               <a
                 href="https://github.com/pabloedusilva"
@@ -171,6 +171,9 @@ export function ConnectionProvider({ children }) {
                 Pablo Silva
               </a>
             </p>
+
+            {/* Espaço vazio (direita para balancear) */}
+            <div></div>
           </div>
 
           {/* ── Overlay preto para transição final ──────────────── */}
