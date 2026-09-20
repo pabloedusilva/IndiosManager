@@ -5,6 +5,20 @@ Todas as mudanças notáveis deste projeto são documentadas aqui.
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [2.11.1](https://github.com/pabloedusilva/IndiosManager/compare/v2.11.0...v2.11.1) (2026-09-20)
+
+### Correções de Bugs
+
+* corrigir rodapé do login e loader ([59d73c7](https://github.com/pabloedusilva/IndiosManager/commit/59d73c7d0ed504d67bd103ef8c456f362bb45ef6))
+
+### Manutenção
+
+* sincronizar versões dos package.json para v2.11.0 [skip ci] ([1cf2974](https://github.com/pabloedusilva/IndiosManager/commit/1cf2974c83932b912ccdf97f47ae2f9443724956))
+
+### Estilo
+
+* atualizar estilo do botão de download de XMLs ([edb27d9](https://github.com/pabloedusilva/IndiosManager/commit/edb27d99946b0b8cf9bc438e7ccd390848e8e6aa))
+
 ## [2.11.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.10.0...v2.11.0) (2026-09-20)
 
 ### Novas Funcionalidades
