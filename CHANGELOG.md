@@ -5,6 +5,24 @@ Todas as mudanças notáveis deste projeto são documentadas aqui.
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [2.12.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.11.1...v2.12.0) (2026-10-18)
+
+### Novas Funcionalidades
+
+* aprimora funcionalidade de geração do relatório mensal ([e793273](https://github.com/pabloedusilva/IndiosManager/commit/e793273f24f056dd0f4769f18e50f465c05bb4e6))
+
+### Correções de Bugs
+
+* corrige instalação de dependências nos workflows CI/CD ([0c7364e](https://github.com/pabloedusilva/IndiosManager/commit/0c7364e5eb8db39eb2bcf6e6a6d5880d973bd5c0))
+
+### Documentação
+
+* sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([e3c22cc](https://github.com/pabloedusilva/IndiosManager/commit/e3c22cc5f590102f1849b14c8f3acb8719ec61bf))
+
+### Manutenção
+
+* sincronizar versões dos package.json para v2.11.1 [skip ci] ([d7890cd](https://github.com/pabloedusilva/IndiosManager/commit/d7890cd458c140d91cf5347149b214b1ff7e2ccf))
+
 Histórico completo de releases do projeto.
 
 ## v2.11.1 (20/09/2026)
