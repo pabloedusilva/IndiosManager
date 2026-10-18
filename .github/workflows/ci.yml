@@ -344,7 +344,7 @@ jobs:
           cache-dependency-path: backend/package-lock.json
 
       - name: Instalar dependências do backend
-        run: rm -rf node_modules package-lock.json && npm install --no-package-lock
+        run: npm ci
 
       - name: Executar testes
         run: npm run test:run
@@ -394,7 +394,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Instalar dependências do frontend
-        run: rm -rf node_modules package-lock.json && npm install --no-package-lock
+        run: npm ci
 
       - name: Executar testes
         run: npm run test:run

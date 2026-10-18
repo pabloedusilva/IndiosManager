@@ -5,40 +5,80 @@ Todas as mudanças notáveis deste projeto são documentadas aqui.
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+Histórico completo de releases do projeto.
+
+## v2.11.1 (20/09/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.11.1)
+
+[2.11.1](https://github.com/pabloedusilva/IndiosManager/compare/v2.11.0...v2.11.1) (2026-09-20)
+
 ## [2.11.1](https://github.com/pabloedusilva/IndiosManager/compare/v2.11.0...v2.11.1) (2026-09-20)
+
 
 ### Correções de Bugs
 
 * corrigir rodapé do login e loader ([59d73c7](https://github.com/pabloedusilva/IndiosManager/commit/59d73c7d0ed504d67bd103ef8c456f362bb45ef6))
 
+
 ### Manutenção
 
 * sincronizar versões dos package.json para v2.11.0 [skip ci] ([1cf2974](https://github.com/pabloedusilva/IndiosManager/commit/1cf2974c83932b912ccdf97f47ae2f9443724956))
+
 
 ### Estilo
 
 * atualizar estilo do botão de download de XMLs ([edb27d9](https://github.com/pabloedusilva/IndiosManager/commit/edb27d99946b0b8cf9bc438e7ccd390848e8e6aa))
 
+## v2.11.0 (20/09/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.11.0)
+
+[2.11.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.10.0...v2.11.0) (2026-09-20)
+
 ## [2.11.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.10.0...v2.11.0) (2026-09-20)
+
 
 ### Novas Funcionalidades
 
 * adicionar geração automática de relatórios mensais ([e8d5a9f](https://github.com/pabloedusilva/IndiosManager/commit/e8d5a9fd32d7b00d454a6c4c1c16ec1e49b79caf))
 
+
 ### Correções de Bugs
 
-* corrigir paginação e filtro de período das notas fiscais ([a793a68](https://github.com/pabloedusilva/IndiosManager/commit/a793a6841ae8bfe5dcf1699d7911ba9e5fbcc836))
+* corrigir paginaç��o e filtro de período das notas fiscais ([a793a68](https://github.com/pabloedusilva/IndiosManager/commit/a793a6841ae8bfe5dcf1699d7911ba9e5fbcc836))
+
 
 ### Documentação
 
 * sincronizar CHANGELOG.md com releases do GitHub [skip ci] ([87fc2e9](https://github.com/pabloedusilva/IndiosManager/commit/87fc2e98e62f446386a098306d422d653e095075))
+
 
 ### Manutenção
 
 * forçar nova build do CI ([3fea591](https://github.com/pabloedusilva/IndiosManager/commit/3fea59192b065357203505e32ee5965587ed2afd))
 * mesclar branch 'develop' na main ([5ee5111](https://github.com/pabloedusilva/IndiosManager/commit/5ee511154d318c25b9ca1346f9942a13b906e080))
 
-Histórico completo de releases do projeto.
+## v2.10.0 (04/09/2026)
+
+[Ver release](https://github.com/pabloedusilva/IndiosManager/releases/tag/v2.10.0)
+
+[2.10.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.9.0...v2.10.0) (2026-09-04)
+
+## [2.10.0](https://github.com/pabloedusilva/IndiosManager/compare/v2.9.0...v2.10.0) (2026-09-04)
+
+
+### Novas Funcionalidades
+
+* **notas-fiscais:** implementa backup de DANFEs e XMLs via Focus NFe ([e810d98](https://github.com/pabloedusilva/IndiosManager/commit/e810d98a31b491f8591f90ddd3fedc5083b70431))
+
+
+### Manutenção
+
+* **config:** atualiza nome da aplicação e corrige CORS ([244fec9](https://github.com/pabloedusilva/IndiosManager/commit/244fec999784b132c68352f8bca3e4049086772d))
+* resolve conflitos do merge ([03438f2](https://github.com/pabloedusilva/IndiosManager/commit/03438f2e0a0364bd27de23df40eb1371332bf492))
+* restaura versão estável e atualiza nomes das guias ([de01215](https://github.com/pabloedusilva/IndiosManager/commit/de01215d9ebb174940659bfa9cbaca1332efc448))
+* sincronizar versões dos package.json para v2.9.0 [skip ci] ([1a4291c](https://github.com/pabloedusilva/IndiosManager/commit/1a4291c1f4a126edb46d487976e7b50ce4f841e5))
 
 ## v2.9.0 (30/08/2026)
 
