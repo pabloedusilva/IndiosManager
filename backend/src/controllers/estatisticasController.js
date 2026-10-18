@@ -362,6 +362,92 @@ const listarRelatorios = async (req, res, next) => {
   }
 }
 
+// POST /api/estatisticas/relatorio/:mes/gerar
+// Gera o relatório de um mês específico sob demanda
+// Regra: só pode gerar relatórios de meses anteriores, a partir do dia 01 do mês seguinte
+const gerarRelatorio = async (req, res, next) => {
+  try {
+    const { mes } = req.params
+    
+    // Validar formato do mês
+    if (!mes || !/^\d{4}-\d{2}$/.test(mes)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Mês inválido. Use o formato YYYY-MM.' 
+      })
+    }
+
+    // Validar se pode gerar o relatório
+    const hoje = new Date()
+    const [anoMes, mesMes] = mes.split('-').map(Number)
+    
+    // Criar data do primeiro dia do mês solicitado
+    const primeiroDiaMesSolicitado = new Date(anoMes, mesMes - 1, 1)
+    
+    // Criar data do primeiro dia do mês seguinte ao solicitado
+    const primeiroDiaMesSeguinte = new Date(anoMes, mesMes, 1)
+    
+    // Verificar se estamos no mês solicitado ou antes do dia 01 do mês seguinte
+    if (hoje < primeiroDiaMesSeguinte) {
+      // Ainda não chegou o dia 01 do mês seguinte
+      const mesAtualHoje = hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0')
+      
+      if (mes === mesAtualHoje) {
+        return res.status(403).json({ 
+          success: false, 
+          message: 'Não é possível gerar relatório do mês atual. Aguarde o mês terminar.',
+          mesAtual: mes,
+          proximaDisponibilidade: primeiroDiaMesSeguinte.toISOString().split('T')[0]
+        })
+      }
+      
+      return res.status(403).json({ 
+        success: false, 
+        message: `O relatório de ${nomeMesPDF(mes)} estará disponível a partir de 01/${String(mesMes + 1).padStart(2, '0')}/${anoMes}.`,
+        proximaDisponibilidade: primeiroDiaMesSeguinte.toISOString().split('T')[0]
+      })
+    }
+
+    // Verificar se o relatório já existe
+    const relatorioExistente = await EstatisticasModel.buscarRelatorio(mes)
+    if (relatorioExistente) {
+      return res.status(200).json({ 
+        success: true, 
+        message: 'Relatório já foi gerado anteriormente.',
+        jaExiste: true,
+        geradoEm: relatorioExistente.geradoEm
+      })
+    }
+
+    // Buscar estatísticas do mês
+    const stats = await EstatisticasModel.estatisticasMes(mes)
+    
+    if (!stats || !stats.resumo) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Não há dados disponíveis para este mês.' 
+      })
+    }
+
+    // Salvar relatório no banco
+    await EstatisticasModel.salvarRelatorio(mes, stats)
+    
+    console.log(`[Estatísticas] Relatório de ${mes} gerado manualmente`)
+    
+    return res.status(201).json({ 
+      success: true, 
+      message: 'Relatório gerado com sucesso!',
+      mes,
+      faturamento: stats.resumo.faturamento,
+      totalPedidos: stats.resumo.totalPedidos
+    })
+    
+  } catch (err) {
+    console.error('[Estatísticas] Erro ao gerar relatório:', err.message)
+    next(err)
+  }
+}
+
 // GET /api/estatisticas/relatorio/:mes/download
 // Gera o PDF em memória a partir dos dados do banco e envia para download
 const downloadRelatorio = async (req, res, next) => {
@@ -396,6 +482,7 @@ module.exports = {
   sincronizar,
   listarSnapshots,
   listarRelatorios,
+  gerarRelatorio,
   downloadRelatorio,
   gerarPDFBuffer,
 }

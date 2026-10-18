@@ -7,7 +7,7 @@ import {
   MdAttachMoney, MdRestaurantMenu, MdCheckCircle, MdCancel,
   MdTrendingUp, MdWarning, MdFileDownload, MdPictureAsPdf,
   MdCalendarMonth, MdAutoGraph, MdStar, MdPayment, MdLeaderboard,
-  MdRefresh, MdMoreTime,
+  MdRefresh, MdMoreTime, MdSync,
 } from 'react-icons/md'
 
 // ── Helpers ───────────────────────────────────────────────────
@@ -161,12 +161,14 @@ export default function Estatisticas() {
     relatorioDoMesAtivo,
     loading,
     error,
+    gerarRelatorio,
     baixarRelatorio,
     refetch,
     recarregarRelatorios,
   } = useEstatisticas()
 
   const [modalMesesAberto, setModalMesesAberto] = useState(false)
+  const [gerandoRelatorio, setGerandoRelatorio] = useState(false)
 
   // Últimos 3 meses disponíveis
   const ultimos3Meses = useMemo(() => {
@@ -712,7 +714,7 @@ export default function Estatisticas() {
           </div>
 
           {relatorioDoMesAtivo ? (
-            /* Relatório disponível para download */
+            /* Relatório já gerado - disponível para download */
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3
                             bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/40
                             rounded-xl p-4">
@@ -739,40 +741,99 @@ export default function Estatisticas() {
               </button>
             </div>
           ) : (() => {
-            const [ano, mes] = (mesAtivo || '2000-01').split('-').map(Number)
-            const dataDisp = new Date(ano, mes, 1)
+            // Validar se pode gerar o relatório
             const hoje = new Date()
-            hoje.setHours(0, 0, 0, 0)
-            const jaDeveriaTerSido = hoje >= dataDisp
+            const [anoMes, mesMes] = mesAtivo.split('-').map(Number)
+            
+            // Criar data do primeiro dia do mês seguinte ao solicitado
+            const primeiroDiaMesSeguinte = new Date(anoMes, mesMes, 1)
+            
+            // Verificar se ainda não chegou o dia 01 do mês seguinte
+            const podeGerar = hoje >= primeiroDiaMesSeguinte
+            
+            // Verificar se é o mês atual (não pode gerar)
+            const mesAtualHoje = hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0')
+            const ehMesAtual = mesAtivo === mesAtualHoje
+            
+            // Mensagens
+            let titulo, descricao
+            
+            if (ehMesAtual) {
+              titulo = 'Relatório indisponível'
+              descricao = `Não é possível gerar relatório do mês atual. O relatório de ${nomeMes(mesAtivo)} estará disponível a partir de 01/${String(mesMes + 1).padStart(2, '0')}/${anoMes}`
+            } else if (!podeGerar) {
+              const dataLiberacao = primeiroDiaMesSeguinte.toLocaleDateString('pt-BR', { 
+                day: '2-digit', 
+                month: '2-digit',
+                year: 'numeric'
+              })
+              titulo = 'Aguardando liberação'
+              descricao = `O relatório de ${nomeMes(mesAtivo)} estará disponível a partir de ${dataLiberacao}`
+            } else {
+              titulo = 'Relatório disponível para geração'
+              descricao = `Clique em "Gerar Relatório" para criar o relatório de ${nomeMes(mesAtivo)}`
+            }
 
             return (
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3
                               bg-brand-surface-2 border border-brand-border rounded-xl p-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-brand-surface-3 flex items-center justify-center">
-                    <MdCalendarMonth className="text-brand-text-3" size={20} />
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
+                    podeGerar && !ehMesAtual 
+                      ? 'bg-emerald-100 dark:bg-emerald-900/40'
+                      : 'bg-brand-surface-3'
+                  }`}>
+                    <MdCalendarMonth className={
+                      podeGerar && !ehMesAtual 
+                        ? 'text-emerald-600 dark:text-emerald-400'
+                        : 'text-brand-text-3'
+                    } size={20} />
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-brand-text">
-                      {jaDeveriaTerSido
-                        ? 'Relatório sendo processado...'
-                        : `Disponível em ${dataDisp.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })}`}
+                      {titulo}
                     </p>
                     <p className="text-xs text-brand-text-3 mt-0.5">
-                      {jaDeveriaTerSido
-                        ? 'O relatório é gerado automaticamente no dia 1 de cada mês.'
-                        : `O relatório de ${nomeMes(mesAtivo)} será gerado automaticamente em ${dataDisp.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })}.`}
+                      {descricao}
                     </p>
                   </div>
                 </div>
+                <button
+                  onClick={async () => {
+                    setGerandoRelatorio(true)
+                    try {
+                      await gerarRelatorio(mesAtivo)
+                    } finally {
+                      setGerandoRelatorio(false)
+                    }
+                  }}
+                  disabled={!podeGerar || ehMesAtual || gerandoRelatorio}
+                  className={`px-4 py-2 text-sm gap-1.5 shrink-0 ${
+                    podeGerar && !ehMesAtual
+                      ? 'btn-primary'
+                      : 'bg-brand-surface-3 text-brand-text-3 cursor-not-allowed opacity-50'
+                  }`}
+                >
+                  {gerandoRelatorio ? (
+                    <>
+                      <MdSync size={16} className="animate-spin" />
+                      Gerando...
+                    </>
+                  ) : (
+                    <>
+                      <MdFileDownload size={16} />
+                      Gerar Relatório
+                    </>
+                  )}
+                </button>
               </div>
             )
           })()}
 
-          {/* Nota sobre retenção */}
+          {/* Nota sobre disponibilidade */}
           <p className="text-[11px] text-brand-text-3 mt-3 flex items-center gap-1.5">
             <MdCalendarMonth size={13} className="text-brand-text-3" />
-            Relatórios de todos os meses são mantidos. O painel exibe os últimos 3 meses.
+            Relatórios ficam disponíveis a partir do dia 01 do mês seguinte. Após gerados, ficam disponíveis permanentemente.
           </p>
         </div>
 
