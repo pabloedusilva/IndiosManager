@@ -103,6 +103,36 @@ export function useEstatisticas() {
     await carregarRelatorios()
   }, [carregarMeses, carregarRelatorios])
 
+  // ── Gera o relatório de um mês específico (disponível a partir do dia 01 do mês seguinte) ──
+  const gerarRelatorio = useCallback(async (mes) => {
+    try {
+      const response = await api.post(`/estatisticas/relatorio/${mes}/gerar`)
+      
+      if (response.jaExiste) {
+        toast.info('Relatório já foi gerado anteriormente')
+      } else {
+        toast.success('Relatório gerado com sucesso!')
+      }
+      
+      // Recarregar lista de relatórios
+      await carregarRelatorios()
+      
+      return response
+    } catch (err) {
+      // Mensagens de erro específicas
+      if (err.message.includes('mês atual')) {
+        toast.error('Não é possível gerar relatório do mês atual. Aguarde o mês terminar.')
+      } else if (err.message.includes('estará disponível')) {
+        toast.error(err.message)
+      } else if (err.message.includes('403')) {
+        toast.error('Relatório ainda não disponível para este período')
+      } else {
+        toast.error(err.message || 'Erro ao gerar relatório')
+      }
+      throw err
+    }
+  }, [carregarRelatorios])
+
   // ── Baixa o PDF de um relatório (gerado em memória no servidor) ──
   const baixarRelatorio = useCallback(async (mes) => {
     try {
@@ -155,6 +185,7 @@ export function useEstatisticas() {
     sincronizando,
     error,
     sincronizar,
+    gerarRelatorio,
     baixarRelatorio,
     recarregarRelatorios: carregarRelatorios,
     refetch,

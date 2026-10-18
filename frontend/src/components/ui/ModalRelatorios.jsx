@@ -125,7 +125,7 @@ export default function ModalRelatorios({ isOpen, onClose, relatorios, onBaixar,
                 </div>
                 <p className="font-semibold text-brand-text">Nenhum relatório disponível</p>
                 <p className="text-sm text-brand-text-3 max-w-xs">
-                  Os relatórios são gerados automaticamente no dia 1 de cada mês.
+                  Os relatórios devem ser gerados manualmente no dia 01 de cada mês.
                 </p>
               </div>
             )}
