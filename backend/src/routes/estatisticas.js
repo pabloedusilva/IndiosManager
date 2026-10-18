@@ -10,6 +10,7 @@ const {
   sincronizar,
   listarSnapshots,
   listarRelatorios,
+  gerarRelatorio,
   downloadRelatorio,
 } = require('../controllers/estatisticasController')
 
@@ -21,6 +22,7 @@ router.get('/mensal',                    estatisticasMensal)
 router.post('/sincronizar',              sincronizar)
 router.get('/snapshots',                 listarSnapshots)
 router.get('/relatorios',                listarRelatorios)
+router.post('/relatorio/:mes/gerar',     gerarRelatorio)
 router.get('/relatorio/:mes/download',   downloadRelatorio)
 
 module.exports = router
